@@ -1,36 +1,37 @@
-const { GraphQLServer } = require('graphql-yoga')
+const { GraphQLServer, PubSub } = require('graphql-yoga')
 const { PrismaClient } = require('@prisma/client')
+const Query = require('./resolvers/Query')
+const Mutation = require('./resolvers/Mutation')
+const Subscription = require('./resolvers/Subscription')
+const User = require('./resolvers/User')
+const Link = require('./resolvers/Link')
+const Vote = require('./resolvers/Vote')
+
 
 
 const resolvers = {
-  Query: {
-    info: () => `This is the API of a Hackernews Clone`,
-    feed: async (parent, args, context, info) => {
-      return context.prisma.link.findMany()
-    },
-  },
-  Mutation: {
-    post: (parent, args, context, info) => {
-      const newLink = context.prisma.link.create({
-        data: {
-          url: args.url,
-          description: args.description
-        },
-      })
-      return newLink
-    }
-  },
+  Query,
+  Mutation,
+  Subscription,
+  User,
+  Link,
+  Vote
 }
 
 const prisma = new PrismaClient()
-
+const pubsub = new PubSub()
 const server = new GraphQLServer({
 	typeDefs: './src/schema.graphql',
   resolvers,
   // Pass context when the GraphQLServer is instantiated to access in all resolvers
-  context: {
-    prisma,
-  }
+  // Attach the HTTP request that carries the incoming GraphQL query (or mutation)
+  context: request => {
+    return {
+      ...request,
+      prisma,
+      pubsub
+    }
+  },
 })
 
 // Open GUI to view DB with: npx prisma studio --experimental
