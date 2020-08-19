@@ -83,9 +83,76 @@ async function vote(parent, args, context, info) {
   return newVote
 }
 
+function addFaction(parent, args, context, info) {
+  const newFaction = context.prisma.faction.create({
+    data: {
+      name: args.name,
+      description: args.description,
+    }
+  })
+
+  return newFaction
+}
+
+async function updateFaction(parent, args, context, info) {
+  return context.prisma.faction.update({
+    where: { id: Number(args.id) },
+    data: {
+      name: args.name,
+      description: args.description,
+    }
+  })
+}
+
+async function deleteFaction(parent, args, context, info) {
+  return context.prisma.faction.delete({
+    where: { 
+      id: Number(args.id) 
+    }
+  })
+}
+
+function addRace(parent, args, context, info) {
+  const newRace = context.prisma.race.create({
+    data: {
+      name: args.name,
+      description: args.description,
+      loyalTo: { connect: { id: Number(args.factionId) } }
+    }
+  })
+
+  return newRace
+}
+
+async function updateRace(parent, args, context, info) {
+  return context.prisma.race.update({
+    where: { id: Number(args.id) },
+    data: {
+      name: args.name,
+      description: args.description,
+      loyalTo: { connect: { id: Number(args.factionId) } }
+    }
+  })
+}
+
+async function deleteRace(parent, args, context, info) {
+  return context.prisma.race.delete({
+    where: { 
+      id: Number(args.id) 
+    }
+  })
+}
+
+
 module.exports = {
   signup,
   login,
   post,
   vote,
+  addFaction,
+  updateFaction,
+  deleteFaction,
+  addRace,
+  updateRace,
+  deleteRace,
 }

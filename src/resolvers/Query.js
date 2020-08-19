@@ -21,8 +21,13 @@ async function feed(parent, args, context, info) {
     links,
     count,
   }
+};
+
+async function allFactions(parent, args, context, info) {
+    return context.prisma.faction.findMany()
 }
 
 module.exports = {
   feed,
+  allFactions
 }

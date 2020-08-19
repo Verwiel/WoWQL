@@ -1,6 +1,7 @@
 type Query {
   info: String!
   feed(filter: String, skip: Int, take: Int, orderBy: LinkOrderByInput): Feed!
+  allFactions: [Faction!]!
 }
 
 type Mutation {
@@ -8,6 +9,14 @@ type Mutation {
   signup(email: String!, password: String!, name: String!): AuthPayload
   login(email: String!, password: String!): AuthPayload
   vote(linkId: ID!): Vote
+
+  addFaction(name: String!, description: String!): Faction!
+  updateFaction(id: ID!, name: String, description: String): Faction!
+  deleteFaction(id: ID!): Faction!
+
+  addRace(name: String!, description: String!, leader: String, factionId: ID!): Race!
+  updateRace(id: ID!, name: String, description: String, factionId: ID!): Race!
+  deleteRace(id: ID!): Race!
 }
 
 type Subscription {
@@ -55,4 +64,34 @@ input LinkOrderByInput {
 enum Sort {
   asc
   desc
+}
+
+type Faction {
+  id: ID!
+  name: String!
+  description: String!
+  races: [Race!]
+}
+
+type Race {
+  id: ID!
+  name: String!
+  description: String!
+  leader: Leader
+  racials: [Racial]
+  loyalTo: Faction!
+}
+
+type Leader {
+  id: ID!
+  name: String!
+  description: String!
+  people: Race
+}
+
+type Racial {
+  id: ID!
+  name: String!
+  description: String!
+  race: Race!
 }

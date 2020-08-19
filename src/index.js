@@ -6,6 +6,8 @@ const Subscription = require('./resolvers/Subscription')
 const User = require('./resolvers/User')
 const Link = require('./resolvers/Link')
 const Vote = require('./resolvers/Vote')
+const Faction = require('./resolvers/Faction')
+const Race = require('./resolvers/Race')
 
 
 
@@ -15,7 +17,9 @@ const resolvers = {
   Subscription,
   User,
   Link,
-  Vote
+  Vote,
+  Faction,
+  Race
 }
 
 const prisma = new PrismaClient()
