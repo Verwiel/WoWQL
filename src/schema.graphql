@@ -17,6 +17,14 @@ type Mutation {
   addRace(name: String!, description: String!, leader: String, factionId: ID!): Race!
   updateRace(id: ID!, name: String, description: String, factionId: ID!): Race!
   deleteRace(id: ID!): Race!
+
+  addLeader(name: String!, description: String!, raceId: ID!): Leader!
+  updateLeader(id: ID!, name: String, description: String): Leader!
+  deleteLeader(id: ID!): Leader!
+
+  addRacial(name: String!, benefit: String!, raceId: ID!): Racial!
+  updateRacial(id: ID!, name: String, benefit: String, raceId: ID!): Racial!
+  deleteRacial(id: ID!): Racial!
 }
 
 type Subscription {
@@ -92,6 +100,6 @@ type Leader {
 type Racial {
   id: ID!
   name: String!
-  description: String!
+  benefit: String!
   race: Race!
 }

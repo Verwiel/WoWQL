@@ -94,7 +94,7 @@ function addFaction(parent, args, context, info) {
   return newFaction
 }
 
-async function updateFaction(parent, args, context, info) {
+function updateFaction(parent, args, context, info) {
   return context.prisma.faction.update({
     where: { id: Number(args.id) },
     data: {
@@ -104,7 +104,7 @@ async function updateFaction(parent, args, context, info) {
   })
 }
 
-async function deleteFaction(parent, args, context, info) {
+function deleteFaction(parent, args, context, info) {
   return context.prisma.faction.delete({
     where: { 
       id: Number(args.id) 
@@ -113,18 +113,16 @@ async function deleteFaction(parent, args, context, info) {
 }
 
 function addRace(parent, args, context, info) {
-  const newRace = context.prisma.race.create({
+  return context.prisma.race.create({
     data: {
       name: args.name,
       description: args.description,
       loyalTo: { connect: { id: Number(args.factionId) } }
     }
   })
-
-  return newRace
 }
 
-async function updateRace(parent, args, context, info) {
+function updateRace(parent, args, context, info) {
   return context.prisma.race.update({
     where: { id: Number(args.id) },
     data: {
@@ -135,8 +133,64 @@ async function updateRace(parent, args, context, info) {
   })
 }
 
-async function deleteRace(parent, args, context, info) {
+function deleteRace(parent, args, context, info) {
   return context.prisma.race.delete({
+    where: { 
+      id: Number(args.id) 
+    }
+  })
+}
+
+function addLeader(parent, args, context, info) {
+  return context.prisma.leader.create({
+    data: {
+      name: args.name,
+      description: args.description,
+      people: { connect: { id: Number(args.raceId) } }
+    }
+  })
+}
+
+function updateLeader(parent, args, context, info) {
+  return context.prisma.leader.update({
+    where: { id: Number(args.id) },
+    data: {
+      name: args.name,
+      description: args.description,
+    }
+  })
+}
+
+function deleteLeader(parent, args, context, info) {
+  return context.prisma.leader.delete({
+    where: { 
+      id: Number(args.id) 
+    }
+  })
+}
+
+function addRacial(parent, args, context, info) {
+  return context.prisma.racial.create({
+    data: {
+      name: args.name,
+      benefits: args.benefits,
+      race: { connect: { id: Number(args.raceId) } }
+    }
+  })
+}
+
+function updateRacial(parent, args, context, info) {
+  return context.prisma.racial.update({
+    where: { id: Number(args.id) },
+    data: {
+      name: args.name,
+      benefits: args.benefits,
+    }
+  })
+}
+
+function deleteRacial(parent, args, context, info) {
+  return context.prisma.racial.delete({
     where: { 
       id: Number(args.id) 
     }
@@ -155,4 +209,10 @@ module.exports = {
   addRace,
   updateRace,
   deleteRace,
+  addLeader,
+  updateLeader,
+  deleteLeader,
+  addRacial,
+  updateRacial,
+  deleteRacial,
 }

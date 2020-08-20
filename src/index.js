@@ -8,6 +8,8 @@ const Link = require('./resolvers/Link')
 const Vote = require('./resolvers/Vote')
 const Faction = require('./resolvers/Faction')
 const Race = require('./resolvers/Race')
+const Leader = require('./resolvers/Leader')
+const Racial = require('./resolvers/Racial')
 
 
 
@@ -19,7 +21,9 @@ const resolvers = {
   Link,
   Vote,
   Faction,
-  Race
+  Race,
+  Leader,
+  Racial,
 }
 
 const prisma = new PrismaClient()

@@ -1,7 +1,7 @@
 
 datasource db {
   provider = "sqlite" 
-  url      = "file:./dev.db"
+  url = "***"
 }
 
 generator client {
@@ -48,7 +48,7 @@ model Race {
   id            Int       @id @default(autoincrement())
   name          String
   description   String
-  leader        Leader?
+  leader        Leader
   racials       Racial[]
   loyalTo       Faction   @relation(fields: [factionId], references: [id])
   factionId     Int
